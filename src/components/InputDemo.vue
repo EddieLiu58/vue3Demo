@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { Input } from './ui/input'
 const model = defineModel()
 </script>
 <template>
-  <input v-model="model" />
+  <Input v-model="model" />
 </template>

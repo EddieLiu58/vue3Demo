@@ -2,10 +2,24 @@
 import TextInterpolation from './components/TextInterpolation.vue'
 import { Button } from './components/ui/button'
 import InputDemo from './components/InputDemo.vue'
-import { ref } from 'vue'
+import InputDemo2 from './components/InputDemo2.vue'
+import { reactive, readonly, ref, watch } from 'vue'
 const color: string = 'text-green-700'
 const vModelText = ref('請輸入')
+const demoDefaultForm = reactive({
+  name: 'Eddie',
+})
+const copy = readonly(demoDefaultForm)
+
 const handleEmitDemo = (data: string) => console.log(data)
+
+watch(
+  () => demoDefaultForm.name,
+  (newValue, oldValue) => {
+    console.log('舊資料:', oldValue)
+    console.log('新資料:', newValue)
+  },
+)
 </script>
 
 <template>
@@ -30,6 +44,14 @@ const handleEmitDemo = (data: string) => console.log(data)
     <section class="m-3">
       <h2 class="text-xl font-bold">v-model: {{ vModelText }}</h2>
       <InputDemo v-model="vModelText" />
+    </section>
+    <section class="m-3">
+      <h2 class="text-xl font-bold">v-model: {{ demoDefaultForm.name }}</h2>
+      <InputDemo2 v-model:name="demoDefaultForm.name" />
+    </section>
+    <section class="m-3">
+      <h2 class="text-xl font-bold">readonly: {{ copy.name }}</h2>
+      <InputDemo2 v-model:name="copy.name" />
     </section>
   </div>
 </template>
