@@ -3,7 +3,16 @@ import TextInterpolation from '../components/TextInterpolation.vue'
 import { Button } from '../components/ui/button'
 import InputDemo from '../components/InputDemo.vue'
 import InputDemo2 from '../components/InputDemo2.vue'
-import { onBeforeUnmount, onMounted, onUpdated, reactive, readonly, ref, watch } from 'vue'
+import {
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  reactive,
+  readonly,
+  ref,
+  watch,
+} from 'vue'
 const color: string = 'text-green-700'
 const vModelText = ref('請輸入')
 const demoDefaultForm = reactive({
@@ -13,17 +22,15 @@ const copy = readonly(demoDefaultForm)
 
 const handleEmitDemo = (data: string) => console.log(data)
 
-watch(
-  () => demoDefaultForm.name,
-  (newValue, oldValue) => {
-    console.log('舊資料:', oldValue)
-    console.log('新資料:', newValue)
-  },
-)
 const timeoutID = window.setInterval(() => console.log('Hello!'), 1000)
+console.log('🔴 Parent: setup')
+
+onBeforeMount(() => {
+  console.log('🔴 Parent: onBeforeMount')
+})
 
 onMounted(() => {
-  console.log('mounted')
+  console.log('🔴 Parent: onMounted')
 })
 
 onUpdated(() => {
@@ -34,6 +41,14 @@ onBeforeUnmount(() => {
   console.log('unmount')
   window.clearInterval(timeoutID)
 })
+
+watch(
+  () => demoDefaultForm.name,
+  (newValue, oldValue) => {
+    console.log('舊資料:', oldValue)
+    console.log('新資料:', newValue)
+  },
+)
 </script>
 
 <template>
